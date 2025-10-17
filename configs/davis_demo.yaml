@@ -1,0 +1,104 @@
+slam:
+  MOTION_DAMPING: 0.5
+  MOTION_MODEL: 'DAMPED_LINEAR'
+
+  BA_mode: rgbd_dual_ba
+
+  REMOVAL_WINDOW: 20
+  OPTIMIZATION_WINDOW: 15
+  PATCH_LIFETIME: 12
+
+  KEYFRAME_INDEX: 4
+  KEYFRAME_THRESH: 10
+  
+  PATCHES_PER_FRAME: 400
+  BUFFER_SIZE: 1024
+
+  PATCH_GEN: grid_grad_20
+  
+  ITER: 4
+
+  LOSS: huber
+
+  USE_MAP_FILTERING: true
+  MAP_FILTERING_TH: 5
+  MIN_TRACK_LEN: 3
+  TRAJ_INIT: false
+
+  VIS_THRESHOLD: 0.9
+  STATIC_THRESHOLD: 0.1
+  STATIC_QUANTILE: 0.0
+  CONF_THRESHOLD: 1.0
+  CONF_QUANTILE: 0.8
+  
+  S_slam: 12
+  kf_stride: 2
+  num_init: 12
+  backward_tracking: true
+  use_static_all: true
+
+visualizer:
+  save_dir: "./results"
+  grayscale: false
+  pad_value: 0
+  fps: 10
+  mode: "rainbow"  # 'cool', 'optical_flow'
+  linewidth: 2
+  show_first_frame: 10
+  tracks_leave_trace: 8  # -1 for infinite
+
+data:
+  imagedir: ''
+  calib: ''
+  stride: 1
+  end: -1
+  skip: 0
+  max_length: 900
+  gt_traj: ''
+  name: ''
+  savedir: ''
+  traj_format: davis
+
+
+model:
+  S: 12
+  I: 4
+  stride: 4
+  mode: md_tracker
+  sliding_window_len: 12
+  model_stride: 4
+  Embed3D: true
+  use_log_depth: false
+  dynamic_mask_detach: true
+  hidden_dim: 256
+  latent_dim: 128
+  corr_levels: 4
+  corr_radius: 3
+  disp_context_levels: 4
+  disp_context_radius: 1
+  add_space_attn: true
+  space_depth: 6
+  time_depth: 6
+  hidden_size: 384
+  num_heads: 8
+  num_virtual_tracks: 64
+  static_iters: 2
+  space_depth_dyn: 3
+  time_depth_dyn: 3
+  motion_label_block:
+    mode: mlp_v1
+    in_dim: 128
+    hidden_dim: 256
+    S: 8
+
+
+  init_dir: checkpoints/md_tracker.pth
+
+
+exp_name: 'batrack_davis_demo'
+output_dir: ''
+save_trajectory: true
+save_video: true
+save_plot: true
+save_results: true
+viz: false
